@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unibridge/input.dart';
 
@@ -8,10 +9,18 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State {
-  TextEditingController nameController = TextEditingController();
+  //Necessary Variables
+  bool isSignup = false;
+  bool showPassword = false;
+  bool showNewPassword = false;
+  bool showConfirmPassword = false;
+  TextEditingController userNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
+  TextEditingController newPassController = TextEditingController();
+  TextEditingController confirmPassController = TextEditingController();
   String? error = null;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +34,7 @@ class _LoginState extends State {
             width: double.infinity,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("Asset/Images/plane1.jpg"),
+                image: AssetImage("Asset/Images/plane.jpg"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -49,9 +58,12 @@ class _LoginState extends State {
                                   2,
                                 ), // x and y offset of the shadow
                                 blurRadius: 4, // how soft the shadow is
-                                color: const Color.fromARGB(255, 77, 76, 76).withAlpha(
-                                  150,
-                                ), // shadow color
+                                color: const Color.fromARGB(
+                                  255,
+                                  77,
+                                  76,
+                                  76,
+                                ).withAlpha(150), // shadow color
                               ),
                             ],
                           ),
@@ -71,9 +83,12 @@ class _LoginState extends State {
                                   2,
                                 ), // x and y offset of the shadow
                                 blurRadius: 4, // how soft the shadow is
-                                color: const Color.fromARGB(255, 77, 76, 76).withAlpha(
-                                  150,
-                                ), // shadow color
+                                color: const Color.fromARGB(
+                                  255,
+                                  77,
+                                  76,
+                                  76,
+                                ).withAlpha(150), // shadow color
                               ),
                             ],
                           ),
@@ -85,6 +100,7 @@ class _LoginState extends State {
                 SizedBox(height: 40),
                 Column(
                   children: [
+                    //Register and Login Form Section
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.35,
                       child: Container(
@@ -104,14 +120,16 @@ class _LoginState extends State {
                           padding: const EdgeInsets.all(25.0),
                           child: Column(
                             children: [
-                              // InputBox(
-                              //   controller: nameController,
-                              //   keyboardType: TextInputType.name,
-                              //   hint: "User Name",
-                              //   errorText: error,
-                              //   icon: Icons.person,
-                              // ),
-                              // SizedBox(height: 10,),
+                              if (isSignup)
+                                InputBox(
+                                  controller: userNameController,
+                                  keyboardType: TextInputType.name,
+                                  hint: "User Name",
+                                  errorText: error,
+                                  icon: Icons.person,
+                                ),
+                              if (isSignup) SizedBox(height: 10),
+
                               InputBox(
                                 controller: emailController,
                                 keyboardType: TextInputType.emailAddress,
@@ -120,14 +138,55 @@ class _LoginState extends State {
                                 icon: Icons.email,
                               ),
                               SizedBox(height: 10),
-                              InputBox(
-                                controller: passController,
-                                keyboardType: TextInputType.visiblePassword,
-                                hint: "Password",
-                                errorText: error,
-                                icon: Icons.password,
-                              ),
-                              SizedBox(height: 30),
+                              if (!isSignup)
+                                InputBox(
+                                  controller: passController,
+                                  keyboardType: TextInputType.visiblePassword,
+                                  hint: "Password",
+                                  errorText: error,
+                                  icon: Icons.lock,
+                                  isPassword: true,
+                                  isVisible: showPassword,
+                                  onToggle: () {
+                                    setState(() {
+                                      showPassword = !showPassword;
+                                    });
+                                  },
+                                ),
+                              if (!isSignup) SizedBox(height: 30),
+                              if (isSignup)
+                                InputBox(
+                                  controller: newPassController,
+                                  keyboardType: TextInputType.visiblePassword,
+                                  hint: "New Password",
+                                  errorText: error,
+                                  icon: Icons.lock,
+                                  isPassword: true,
+                                  isVisible: showNewPassword,
+                                  onToggle: () {
+                                    setState(() {
+                                      showNewPassword = !showNewPassword;
+                                    });
+                                  },
+                                ),
+                              SizedBox(height: 10),
+                              if (isSignup)
+                                InputBox(
+                                  controller: confirmPassController,
+                                  keyboardType: TextInputType.visiblePassword,
+                                  hint: "Confirm Password",
+                                  errorText: error,
+                                  icon: Icons.lock,
+                                  isPassword: true,
+                                  isVisible: showConfirmPassword,
+                                  onToggle: () {
+                                    setState(() {
+                                      showConfirmPassword =
+                                          !showConfirmPassword;
+                                    });
+                                  },
+                                ),
+                              if (isSignup) SizedBox(height: 30),
                               ElevatedButton(
                                 onPressed: () {},
                                 style: ElevatedButton.styleFrom(
@@ -143,7 +202,7 @@ class _LoginState extends State {
                                   ),
                                 ),
                                 child: Text(
-                                  "Login",
+                                  isSignup ? "Create Account" : "Login",
                                   style: TextStyle(
                                     color: const Color.fromARGB(
                                       255,
@@ -156,33 +215,86 @@ class _LoginState extends State {
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 30),
-                              Text(
-                                "Forgot Password?",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
+                              if (!isSignup) SizedBox(height: 30),
+                              if (!isSignup)
+                                Text(
+                                  "Forgot Password?",
+                                  style: TextStyle(
+                                    color: const Color(0xFFFFAFCC),
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Or",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
+                              if (!isSignup) SizedBox(height: 10),
+                              if (!isSignup)
+                                Text(
+                                  "Or",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Login With Google/Facebook",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
+                              if (!isSignup) SizedBox(height: 10),
+                              if (!isSignup)
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Login With",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(width: 15,),
+                                    GestureDetector(
+                                      onTap: () {
+                                        // Google login logic later
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.white,
+                                        ),
+                                        child: Icon(
+                                          FontAwesomeIcons.google,
+                                          color: Color(0xFF1877F2),
+                                          size: 15,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      "Or",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(width: 10,),
+                                    GestureDetector(
+                                      onTap: () {
+                                        // Facebook login logic later
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.white,
+                                        ),
+                                        child: Icon(
+                                          FontAwesomeIcons.facebookF,
+                                          color: Color(0xFF1877F2),
+                                          size: 15,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
                             ],
                           ),
                         ),
@@ -195,7 +307,9 @@ class _LoginState extends State {
                         child: Row(
                           children: [
                             Text(
-                              "Don't have account?",
+                              isSignup
+                                  ? "Already have an account?"
+                                  : "Don't have an account?",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 17,
@@ -203,12 +317,19 @@ class _LoginState extends State {
                               ),
                             ),
                             SizedBox(width: 10),
-                            Text(
-                              "Sign Up",
-                              style: TextStyle(
-                                color: const Color(0xFFFFAFCC),
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
+                            TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  isSignup = !isSignup;
+                                });
+                              },
+                              child: Text(
+                                isSignup ? "Login" : "Sign Up",
+                                style: TextStyle(
+                                  color: const Color(0xFFFFAFCC),
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ],
