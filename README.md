@@ -33,5 +33,3 @@ Future modules will include authentication logic, dashboard pages, university li
 - Form validation and error handling
 - Forgot password workflow
 - Dashboard and profile pages
-### UniBridge:
-- 
