@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:unibridge/input.dart';
 
 class Login extends StatefulWidget {
+  const Login({super.key});
   @override
   State<StatefulWidget> createState() => _LoginState();
 }
@@ -19,7 +20,8 @@ class _LoginState extends State {
   TextEditingController passController = TextEditingController();
   TextEditingController newPassController = TextEditingController();
   TextEditingController confirmPassController = TextEditingController();
-  String? error = null;
+  String name = "";
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -118,184 +120,237 @@ class _LoginState extends State {
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(25.0),
-                          child: Column(
-                            children: [
-                              if (isSignup)
-                                InputBox(
-                                  controller: userNameController,
-                                  keyboardType: TextInputType.name,
-                                  hint: "User Name",
-                                  errorText: error,
-                                  icon: Icons.person,
-                                ),
-                              if (isSignup) SizedBox(height: 10),
-
-                              InputBox(
-                                controller: emailController,
-                                keyboardType: TextInputType.emailAddress,
-                                hint: "Email",
-                                errorText: error,
-                                icon: Icons.email,
-                              ),
-                              SizedBox(height: 10),
-                              if (!isSignup)
-                                InputBox(
-                                  controller: passController,
-                                  keyboardType: TextInputType.visiblePassword,
-                                  hint: "Password",
-                                  errorText: error,
-                                  icon: Icons.lock,
-                                  isPassword: true,
-                                  isVisible: showPassword,
-                                  onToggle: () {
-                                    setState(() {
-                                      showPassword = !showPassword;
-                                    });
-                                  },
-                                ),
-                              if (!isSignup) SizedBox(height: 30),
-                              if (isSignup)
-                                InputBox(
-                                  controller: newPassController,
-                                  keyboardType: TextInputType.visiblePassword,
-                                  hint: "New Password",
-                                  errorText: error,
-                                  icon: Icons.lock,
-                                  isPassword: true,
-                                  isVisible: showNewPassword,
-                                  onToggle: () {
-                                    setState(() {
-                                      showNewPassword = !showNewPassword;
-                                    });
-                                  },
-                                ),
-                              SizedBox(height: 10),
-                              if (isSignup)
-                                InputBox(
-                                  controller: confirmPassController,
-                                  keyboardType: TextInputType.visiblePassword,
-                                  hint: "Confirm Password",
-                                  errorText: error,
-                                  icon: Icons.lock,
-                                  isPassword: true,
-                                  isVisible: showConfirmPassword,
-                                  onToggle: () {
-                                    setState(() {
-                                      showConfirmPassword =
-                                          !showConfirmPassword;
-                                    });
-                                  },
-                                ),
-                              if (isSignup) SizedBox(height: 30),
-                              ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.white,
-                                  padding: const EdgeInsets.fromLTRB(
-                                    20,
-                                    15,
-                                    20,
-                                    15,
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              children: [
+                                if (isSignup)
+                                  InputBox(
+                                    controller: userNameController,
+                                    keyboardType: TextInputType.name,
+                                    hint: "User Name",
+                                    icon: Icons.person,
+                                    validator: (value) {
+                                      if (value.isEmpty) {
+                                        return "Field is Empty";
+                                      } else if (!RegExp(
+                                        r'^[A-Za-z\. A-Za-z]+$',
+                                      ).hasMatch(value)) {
+                                        return "Invalid Name";
+                                      }
+                                      return null;
+                                    },
                                   ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(7),
-                                  ),
+                                if (isSignup) SizedBox(height: 10),
+                                InputBox(
+                                  controller: emailController,
+                                  keyboardType: TextInputType.emailAddress,
+                                  hint: "Email",
+                                  icon: Icons.email,
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      return "Field is Empty";
+                                    } else if (!RegExp(
+                                      r'^[^\s@]+@[^\s@]+\.[^\s@]+$',
+                                    ).hasMatch(value)) {
+                                      return "Invalid Email";
+                                    }
+                                    return null;
+                                  },
                                 ),
-                                child: Text(
-                                  isSignup ? "Create Account" : "Login",
-                                  style: TextStyle(
-                                    color: const Color.fromARGB(
-                                      255,
-                                      80,
-                                      168,
-                                      250,
+                                SizedBox(height: 10),
+                                if (!isSignup)
+                                  InputBox(
+                                    controller: passController,
+                                    keyboardType: TextInputType.visiblePassword,
+                                    hint: "Password",
+                                    icon: Icons.lock,
+                                    validator: (value) {
+                                      if (value.isEmpty) {
+                                        return "Field is Empty";
+                                      } else if (!RegExp(
+                                        r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$_])[A-Za-z\d@$_]{8,}$',
+                                      ).hasMatch(value)) {
+                                        return "Invalid Password";
+                                      }
+                                      return null;
+                                    },
+                                    isPassword: true,
+                                    isVisible: showPassword,
+                                    onToggle: () {
+                                      setState(() {
+                                        showPassword = !showPassword;
+                                      });
+                                    },
+                                  ),
+                                if (!isSignup) SizedBox(height: 30),
+                                if (isSignup)
+                                  InputBox(
+                                    controller: newPassController,
+                                    keyboardType: TextInputType.visiblePassword,
+                                    hint: "New Password",
+                                    icon: Icons.lock,
+                                    validator: (value) {
+                                      if (value.isEmpty) {
+                                        return "Field is Empty";
+                                      } else if (!RegExp(
+                                        r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$_])[A-Za-z\d@$_]{8,}$',
+                                      ).hasMatch(value)) {
+                                        return "Weak Password\n1. Minimum 8 characters\n2. At least 1 uppercase letter\n3. At least 1 lowercase letter\n4. At least 1 number\n5. At least 1 special character";
+                                      }
+                                      return null;
+                                    },
+                                    isPassword: true,
+                                    isVisible: showNewPassword,
+                                    onToggle: () {
+                                      setState(() {
+                                        showNewPassword = !showNewPassword;
+                                      });
+                                    },
+                                  ),
+                                SizedBox(height: 10),
+                                if (isSignup)
+                                  InputBox(
+                                    controller: confirmPassController,
+                                    keyboardType: TextInputType.visiblePassword,
+                                    hint: "Confirm Password",
+                                    icon: Icons.lock,
+                                    validator: (value) {
+                                      if (value.isEmpty) {
+                                        return "Field is Empty";
+                                      } else if (!RegExp(
+                                        r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$_])[A-Za-z\d@$_]{8,}$',
+                                      ).hasMatch(value)) {
+                                        return "Weak Password\n1. Minimum 8 characters\n2. At least 1 uppercase letter\n3. At least 1 lowercase letter\n4. At least 1 number\n5. At least 1 special character";
+                                      }
+                                      return null;
+                                    },
+                                    isPassword: true,
+                                    isVisible: showConfirmPassword,
+                                    onToggle: () {
+                                      setState(() {
+                                        showConfirmPassword =
+                                            !showConfirmPassword;
+                                      });
+                                    },
+                                  ),
+                                if (isSignup) SizedBox(height: 30),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      if(_formKey.currentState!.validate()){
+                                        name = userNameController.text;
+                                      }
+                                    });
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.white,
+                                    padding: const EdgeInsets.fromLTRB(
+                                      20,
+                                      15,
+                                      20,
+                                      15,
                                     ),
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(7),
+                                    ),
                                   ),
-                                ),
-                              ),
-                              if (!isSignup) SizedBox(height: 30),
-                              if (!isSignup)
-                                Text(
-                                  "Forgot Password?",
-                                  style: TextStyle(
-                                    color: const Color(0xFFFFAFCC),
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              if (!isSignup) SizedBox(height: 10),
-                              if (!isSignup)
-                                Text(
-                                  "Or",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              if (!isSignup) SizedBox(height: 10),
-                              if (!isSignup)
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "Login With",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
+                                  child: Text(
+                                    isSignup ? "Create Account" : "Login",
+                                    style: TextStyle(
+                                      color: const Color.fromARGB(
+                                        255,
+                                        80,
+                                        168,
+                                        250,
                                       ),
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                    SizedBox(width: 15,),
-                                    GestureDetector(
-                                      onTap: () {
-                                        // Google login logic later
-                                      },
-                                      child: Container(
-                                        padding: EdgeInsets.all(8),
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
+                                  ),
+                                ),
+                                if (!isSignup) SizedBox(height: 30),
+                                if (!isSignup)
+                                  Text(
+                                    "Forgot Password?",
+                                    style: TextStyle(
+                                      color: const Color(0xFFFFAFCC),
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                if (!isSignup) SizedBox(height: 10),
+                                if (!isSignup)
+                                  Text(
+                                    "Or",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                if (!isSignup) SizedBox(height: 10),
+                                if (!isSignup)
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "Login With",
+                                        style: TextStyle(
                                           color: Colors.white,
-                                        ),
-                                        child: Icon(
-                                          FontAwesomeIcons.google,
-                                          color: Color(0xFF1877F2),
-                                          size: 15,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Text(
-                                      "Or",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
+                                      SizedBox(width: 15),
+                                      GestureDetector(
+                                        onTap: () {
+                                          // Google login logic later
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.white,
+                                          ),
+                                          child: Icon(
+                                            FontAwesomeIcons.google,
+                                            color: Color(0xFF1877F2),
+                                            size: 15,
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(width: 10,),
-                                    GestureDetector(
-                                      onTap: () {
-                                        // Facebook login logic later
-                                      },
-                                      child: Container(
-                                        padding: EdgeInsets.all(8),
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
+                                      SizedBox(width: 10),
+                                      Text(
+                                        "Or",
+                                        style: TextStyle(
                                           color: Colors.white,
-                                        ),
-                                        child: Icon(
-                                          FontAwesomeIcons.facebookF,
-                                          color: Color(0xFF1877F2),
-                                          size: 15,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                            ],
+                                      SizedBox(width: 10),
+                                      GestureDetector(
+                                        onTap: () {
+                                          // Facebook login logic later
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: Colors.white,
+                                          ),
+                                          child: Icon(
+                                            FontAwesomeIcons.facebookF,
+                                            color: Color(0xFF1877F2),
+                                            size: 15,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

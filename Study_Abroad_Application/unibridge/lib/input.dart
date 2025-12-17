@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class InputBox extends StatelessWidget {
-  final controller, keyboardType, hint, errorText, icon;
+  final controller, keyboardType, hint, icon, validator;
   final bool isPassword;
   final bool? isVisible;
   final VoidCallback? onToggle;
@@ -11,8 +11,8 @@ class InputBox extends StatelessWidget {
     required this.controller,
     required this.keyboardType,
     required this.hint,
-    required this.errorText,
     required this.icon,
+    required this.validator,
     this.isPassword = false,
     this.isVisible,
     this.onToggle,
@@ -26,13 +26,16 @@ class InputBox extends StatelessWidget {
       obscureText: isPassword ? !(isVisible ?? false) : false,
       style: const TextStyle(color: Colors.black),
       cursorColor: Colors.black,
-
+      validator: validator,
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white, // background color
-        errorText: errorText,
         hintText: hint,
         prefixIcon: Icon(icon),
+        errorStyle: TextStyle(
+          color: Colors.white, // 👈 validation error color
+          fontSize: 13,
+        ),
         suffixIcon: isPassword
             ? IconButton(
                 icon: Icon(
