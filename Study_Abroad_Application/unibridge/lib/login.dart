@@ -36,7 +36,7 @@ class _LoginState extends State {
             width: double.infinity,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("Asset/Images/plane.jpg"),
+                image: AssetImage("Asset/Images/log_background.jpg"),
                 fit: BoxFit.cover,
               ),
             ),

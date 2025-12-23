@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:unibridge/login.dart';
+import 'package:unibridge/home.dart';
+// import 'package:unibridge/login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +16,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData.light(),
-      home: Login(),
+      // home: Login(),
+      home: Home(),
     );
   }
 }
