@@ -238,7 +238,7 @@ class _LoginState extends State {
                                 ElevatedButton(
                                   onPressed: () {
                                     setState(() {
-                                      if(_formKey.currentState!.validate()){
+                                      if (_formKey.currentState!.validate()) {
                                         name = userNameController.text;
                                       }
                                     });
@@ -279,76 +279,67 @@ class _LoginState extends State {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                if (!isSignup) SizedBox(height: 10),
-                                if (!isSignup)
-                                  Text(
-                                    "Or",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
+                                SizedBox(height: 20),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      isSignup
+                                          ? "Create Account With"
+                                          : "Login With",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                  ),
-                                if (!isSignup) SizedBox(height: 10),
-                                if (!isSignup)
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        "Login With",
-                                        style: TextStyle(
+                                    SizedBox(width: 15),
+                                    GestureDetector(
+                                      onTap: () {
+                                        // Google login logic later
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
                                           color: Colors.white,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        child: Icon(
+                                          FontAwesomeIcons.google,
+                                          color: Color(0xFF1877F2),
+                                          size: 15,
                                         ),
                                       ),
-                                      SizedBox(width: 15),
-                                      GestureDetector(
-                                        onTap: () {
-                                          // Google login logic later
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.all(8),
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Colors.white,
-                                          ),
-                                          child: Icon(
-                                            FontAwesomeIcons.google,
-                                            color: Color(0xFF1877F2),
-                                            size: 15,
-                                          ),
-                                        ),
+                                    ),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      "Or",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                      SizedBox(width: 10),
-                                      Text(
-                                        "Or",
-                                        style: TextStyle(
+                                    ),
+                                    SizedBox(width: 10),
+                                    GestureDetector(
+                                      onTap: () {
+                                        // Facebook login logic later
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
                                           color: Colors.white,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        child: Icon(
+                                          FontAwesomeIcons.facebookF,
+                                          color: Color(0xFF1877F2),
+                                          size: 15,
                                         ),
                                       ),
-                                      SizedBox(width: 10),
-                                      GestureDetector(
-                                        onTap: () {
-                                          // Facebook login logic later
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.all(8),
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Colors.white,
-                                          ),
-                                          child: Icon(
-                                            FontAwesomeIcons.facebookF,
-                                            color: Color(0xFF1877F2),
-                                            size: 15,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
+                                ),
                               ],
                             ),
                           ),
@@ -371,7 +362,7 @@ class _LoginState extends State {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            SizedBox(width: 10),
+                            SizedBox(width: 5),
                             TextButton(
                               onPressed: () {
                                 setState(() {
