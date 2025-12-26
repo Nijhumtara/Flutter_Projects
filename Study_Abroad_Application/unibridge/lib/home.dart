@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:unibridge/hoverEffect.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -65,7 +66,13 @@ class _HomeState extends State {
                 },
               ),
               SizedBox(width: 10),
-              Icon(Icons.logout),
+              IconButton(
+                icon: const Icon(Icons.logout),
+                color: Color(0xFF1D3557),
+                onPressed: () async {
+                  await Supabase.instance.client.auth.signOut();
+                },
+              ),
               SizedBox(width: 40),
             ],
           ),

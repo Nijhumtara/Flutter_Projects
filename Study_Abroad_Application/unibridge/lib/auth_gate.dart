@@ -24,12 +24,12 @@ class _AuthGateState extends State<AuthGate>{
             ),
           );
         }
-        final session = snapshot.hasData ? snapshot.data!.session : null;
+        final session = snapshot.data?.session;
         if (session != null){
-          return Home();
+          return const Home();
         }
         else{
-          return Login();
+          return const Login();
         }
       },
     );

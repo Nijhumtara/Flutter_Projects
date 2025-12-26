@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:unibridge/input.dart';
+// import 'package:unibridge/auth_gate.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -12,6 +14,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State {
   //Necessary Variables
   bool isSignup = false;
+  bool isLoading = false;
   bool showPassword = false;
   bool showNewPassword = false;
   bool showConfirmPassword = false;
@@ -22,6 +25,66 @@ class _LoginState extends State {
   TextEditingController confirmPassController = TextEditingController();
   String name = "";
   final _formKey = GlobalKey<FormState>();
+  final _supabase = Supabase.instance.client;
+
+  void register() async {
+    String email = emailController.text.trim();
+    String password = confirmPassController.text.trim();
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      final authResponse = await _supabase.auth.signUp(
+        email: email,
+        password: password,
+      );
+      final user = authResponse.user;
+      if (user != null) {
+        await _supabase.from('profiles').insert({
+          'id': user.id,
+          'email': email,
+          'name': name,
+        });
+      }
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Registered Successfully")));
+      setState(() {
+        isSignup = false; // show login form
+      });
+    } on AuthApiException catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.message)));
+    }
+    userNameController.clear();
+    emailController.clear();
+    newPassController.clear();
+    confirmPassController.clear();
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  void login() async {
+    String email = emailController.text.trim();
+    String password = passController.text.trim();
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      await _supabase.auth.signInWithPassword(email: email, password: password);
+    } on AuthApiException catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.message)));
+    } finally {
+      setState(() => isLoading = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -197,6 +260,9 @@ class _LoginState extends State {
                                         r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$_])[A-Za-z\d@$_]{8,}$',
                                       ).hasMatch(value)) {
                                         return "Weak Password\n1. Minimum 8 characters\n2. At least 1 uppercase letter\n3. At least 1 lowercase letter\n4. At least 1 number\n5. At least 1 special character";
+                                      } else if (newPassController.text !=
+                                          confirmPassController.text) {
+                                        return "Password and Confirm Password Doesn't Match";
                                       }
                                       return null;
                                     },
@@ -222,6 +288,9 @@ class _LoginState extends State {
                                         r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$_])[A-Za-z\d@$_]{8,}$',
                                       ).hasMatch(value)) {
                                         return "Weak Password\n1. Minimum 8 characters\n2. At least 1 uppercase letter\n3. At least 1 lowercase letter\n4. At least 1 number\n5. At least 1 special character";
+                                      } else if (newPassController.text !=
+                                          confirmPassController.text) {
+                                        return "Password and Confirm Password Doesn't Match";
                                       }
                                       return null;
                                     },
@@ -240,6 +309,11 @@ class _LoginState extends State {
                                     setState(() {
                                       if (_formKey.currentState!.validate()) {
                                         name = userNameController.text;
+                                      }
+                                      if (isSignup) {
+                                        register();
+                                      } else {
+                                        login();
                                       }
                                     });
                                   },
