@@ -37,8 +37,8 @@ class _HoverTextState extends State<HoverText> {
           child: Text(
             widget.text,
             style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w500,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
                 color: isHover ? Colors.white : Color(0xFF1D3557),
               ),)
             ,

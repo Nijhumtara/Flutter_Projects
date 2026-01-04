@@ -30,25 +30,31 @@ class _LoginState extends State {
   void register() async {
     String email = emailController.text.trim();
     String password = confirmPassController.text.trim();
+    String name = userNameController.text.trim(); // <--- get username here
+
     setState(() {
       isLoading = true;
     });
+
     try {
       final authResponse = await _supabase.auth.signUp(
         email: email,
         password: password,
       );
+
       final user = authResponse.user;
       if (user != null) {
         await _supabase.from('profiles').insert({
           'id': user.id,
           'email': email,
-          'name': name,
+          'name': name, // <-- store the actual username
         });
       }
+
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text("Registered Successfully")));
+      ).showSnackBar(const SnackBar(content: Text("Registered Successfully")));
+
       setState(() {
         isSignup = false; // show login form
       });
@@ -60,6 +66,7 @@ class _LoginState extends State {
         context,
       ).showSnackBar(SnackBar(content: Text(e.message)));
     }
+
     userNameController.clear();
     emailController.clear();
     newPassController.clear();
@@ -104,6 +111,7 @@ class _LoginState extends State {
               ),
             ),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 70),
@@ -114,7 +122,7 @@ class _LoginState extends State {
                         style: GoogleFonts.lobster(
                           textStyle: TextStyle(
                             color: const Color(0xFF1D3557),
-                            fontSize: 40,
+                            fontSize: 22,
                             fontWeight: FontWeight.bold,
                             shadows: [
                               Shadow(
@@ -139,7 +147,7 @@ class _LoginState extends State {
                         style: GoogleFonts.lobster(
                           textStyle: TextStyle(
                             color: const Color(0xFF1D3557),
-                            fontSize: 40,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
                             shadows: [
                               Shadow(
@@ -162,12 +170,12 @@ class _LoginState extends State {
                     ],
                   ),
                 ),
-                SizedBox(height: 40),
+                SizedBox(height: 30),
                 Column(
                   children: [
                     //Register and Login Form Section
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.35,
+                      width: MediaQuery.of(context).size.width * 0.80,
                       child: Container(
                         decoration: BoxDecoration(
                           color: const Color(0xFF1D3557), // card color
@@ -192,6 +200,7 @@ class _LoginState extends State {
                                     controller: userNameController,
                                     keyboardType: TextInputType.name,
                                     hint: "User Name",
+                                    cursorColor: Colors.black,
                                     icon: Icons.person,
                                     validator: (value) {
                                       if (value.isEmpty) {
@@ -209,6 +218,7 @@ class _LoginState extends State {
                                   controller: emailController,
                                   keyboardType: TextInputType.emailAddress,
                                   hint: "Email",
+                                  cursorColor: Colors.black,
                                   icon: Icons.email,
                                   validator: (value) {
                                     if (value.isEmpty) {
@@ -227,6 +237,7 @@ class _LoginState extends State {
                                     controller: passController,
                                     keyboardType: TextInputType.visiblePassword,
                                     hint: "Password",
+                                    cursorColor: Colors.black,
                                     icon: Icons.lock,
                                     validator: (value) {
                                       if (value.isEmpty) {
@@ -252,6 +263,7 @@ class _LoginState extends State {
                                     controller: newPassController,
                                     keyboardType: TextInputType.visiblePassword,
                                     hint: "New Password",
+                                    cursorColor: Colors.black,
                                     icon: Icons.lock,
                                     validator: (value) {
                                       if (value.isEmpty) {
@@ -280,6 +292,7 @@ class _LoginState extends State {
                                     controller: confirmPassController,
                                     keyboardType: TextInputType.visiblePassword,
                                     hint: "Confirm Password",
+                                    cursorColor: Colors.black,
                                     icon: Icons.lock,
                                     validator: (value) {
                                       if (value.isEmpty) {
@@ -381,7 +394,7 @@ class _LoginState extends State {
                                         child: Icon(
                                           FontAwesomeIcons.google,
                                           color: Color(0xFF1877F2),
-                                          size: 15,
+                                          size: 12,
                                         ),
                                       ),
                                     ),
@@ -408,7 +421,7 @@ class _LoginState extends State {
                                         child: Icon(
                                           FontAwesomeIcons.facebookF,
                                           color: Color(0xFF1877F2),
-                                          size: 15,
+                                          size: 12,
                                         ),
                                       ),
                                     ),
@@ -421,7 +434,7 @@ class _LoginState extends State {
                       ),
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.35,
+                      width: MediaQuery.of(context).size.width * 0.80,
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(8, 8, 0, 70),
                         child: Row(

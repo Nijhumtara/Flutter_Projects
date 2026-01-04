@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:unibridge/auth_gate.dart';
-// import 'package:unibridge/auth_gate.dart';
-// import 'package:unibridge/countries.dart';
+
 
 void main() async{
   runApp(const MyApp());

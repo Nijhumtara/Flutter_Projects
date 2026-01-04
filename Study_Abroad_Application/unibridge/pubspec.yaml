@@ -37,6 +37,9 @@ dependencies:
   google_fonts: ^6.3.3
   font_awesome_flutter: ^10.12.0
   supabase_flutter: ^2.12.0
+  image_picker: ^1.2.1
+  file_picker: ^10.3.8
+  file_selector: ^1.1.0
 
 dev_dependencies:
   flutter_test:
