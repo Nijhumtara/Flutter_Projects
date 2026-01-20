@@ -30,6 +30,5 @@ Future modules will include authentication logic, dashboard pages, university li
 ### Future Improvements
 - Firebase authentication
 - Google & Facebook sign-in integration
-- Form validation and error handling
 - Forgot password workflow
 - Dashboard and profile pages
