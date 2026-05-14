@@ -1,21 +1,21 @@
 # Flutter_Projects
-## UniBridge – Study Abroad App (Login & Sign-Up UI)
+## UniBridge – Study Abroad App
 
-UniBridge is a Flutter-based Study Abroad mobile application.  
-This repository contains the **first module** of the project — a **responsive Login and Sign-Up interface** designed with a clean UI and smooth user experience.
+UniBridge is a Flutter-based mobile app that helps students explore study abroad opportunities.
 
-The screen dynamically switches between **Login** and **Create Account** forms without navigation, using state management. It is designed to be easily extendable for future backend authentication and social login integration.
+The app includes a **Login & Register** flow followed by three sequential pages:
+1. **Country Selection** – Select a destination country
+2. **University Listing** – View universities available in the selected country
+3. **University Details** – Explore tuition fees, available courses, and more
 
 ### Features
 - Login and Sign-Up on the same screen (state-based toggle)
 - Custom reusable input fields with icons
-- Password fields with show/hide (eye icon)
+- Password fields with show/hide toggle
 - Independent controllers for each input
-- Text and card shadow effects
 - Smooth scrolling with hidden scrollbar
 - Responsive layout for different screen sizes
-- Clickable Google and Facebook login icons (UI ready)
-- Clean and modern design suitable for production apps
+- Clean, modern design ready for production
 
 ### Technologies Used
 - Flutter & Dart
@@ -23,12 +23,9 @@ The screen dynamically switches between **Login** and **Create Account** forms w
 - Font Awesome Icons
 - Material Design widgets
 
-### Project Status
-This is the **first project** in a multi-project repository.  
-Future modules will include authentication logic, dashboard pages, university listings, and backend integration.
-
 ### Future Improvements
 - Firebase authentication
-- Google & Facebook sign-in integration
-- Forgot password workflow
+- Google & Facebook sign-in
+- Forgot password flow
+- Country, university, and details pages (modules 2–4)
 - Dashboard and profile pages
