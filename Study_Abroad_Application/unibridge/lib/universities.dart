@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:unibridge/university_model.dart';
+import 'package:unibridge/uniInfo.dart';
 
 class Universities extends StatefulWidget {
   final String country;
@@ -14,11 +15,31 @@ class Universities extends StatefulWidget {
 class _UniversitiesState extends State<Universities> {
   List<University> universities = [];
   bool isLoading = true;
+  bool isAdmin = false;
+  final supabase = Supabase.instance.client;
 
   @override
   void initState() {
     super.initState();
     fetchUniversities(country: widget.country);
+    loadAdminStatus();
+  }
+
+  void loadAdminStatus() async {
+    isAdmin = await checkIsAdmin();
+    setState(() {});
+  }
+
+  //Fetch Admin
+  Future<bool> checkIsAdmin() async {
+    final user = supabase.auth.currentUser;
+    if (user == null) return false;
+    final data = await supabase
+        .from('profiles')
+        .select('is_admin')
+        .eq('id', user.id)
+        .single();
+    return data['is_admin'] == true;
   }
 
   //Fetching Universities from 'universities' table
@@ -101,7 +122,7 @@ class _UniversitiesState extends State<Universities> {
                         return Container(
                           width: MediaQuery.of(context).size.width * 95,
                           padding: EdgeInsets.all(20),
-                          margin: EdgeInsets.fromLTRB(10, 20, 10, 20),
+                          margin: EdgeInsets.fromLTRB(10, 0, 10, 20),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(
@@ -142,33 +163,35 @@ class _UniversitiesState extends State<Universities> {
                               const SizedBox(height: 7),
                               Text("Rank: ${uni.ranking}"),
                               const SizedBox(height: 7),
-                              Text("IELTS: ${uni.ielts}"),
-                              const SizedBox(height: 7),
-                              Text(
-                                "Programs: ${uni.programs.join(', ')}",
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              const SizedBox(height: 7),
-                              Text(
-                                "Tution Fees: \$${uni.tuitionMin} - \$${uni.tuitionMax}",
-                              ),
-                              const SizedBox(height: 7),
-                              Text(
-                                "Intakes: ${uni.intakes.join(', ')}",
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              const SizedBox(height: 7),
-                              if (uni.scholarship != null &&
-                                  uni.scholarship!.isNotEmpty)
-                                Text(
-                                  "Scholarship: ${uni.scholarship}",
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    color: Color.fromARGB(255, 44, 160, 48),
+                              SizedBox(width: 30),
+                              //if (isAdmin)
+                              Center(
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) =>
+                                            UniInfo(universityId: uni.id),
+                                      ),
+                                    );
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFFd4a373),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    "Get To Know More",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ),
+                              ),
                             ],
                           ),
                         );

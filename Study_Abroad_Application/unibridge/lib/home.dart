@@ -77,7 +77,7 @@ class _HomeState extends State {
               style: GoogleFonts.lobster(
                 textStyle: TextStyle(
                   color: const Color(0xFF1D3557),
-                  fontSize: 20,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),

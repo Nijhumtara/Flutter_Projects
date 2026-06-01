@@ -17,11 +17,32 @@ class MyDrawer extends StatefulWidget {
 
 class _MyDrawerState extends State<MyDrawer> {
   List<Map<String, dynamic>> educations = [];
+  bool isAdmin = false;
+
+  Future<void> checkAdmin() async {
+    final user = supabase.auth.currentUser;
+    if (user == null) return;
+
+    final profile = await supabase
+        .from('profiles')
+        .select('email')
+        .eq('id', user.id)
+        .single();
+
+    if (!mounted) return;
+
+    setState(() {
+      isAdmin = profile['email'] == 'nazma123@gmail.com';
+    });
+  }
+  
+
 
   @override
   void initState() {
     super.initState();
     loadEducations();
+    checkAdmin(); // 👈 REQUIRED
   }
 
   Future<void> loadEducations() async {
@@ -37,8 +58,6 @@ class _MyDrawerState extends State<MyDrawer> {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-
-          /// 🔹 USER INFO (already written by you – now dynamic)
           DrawerHeader(
             decoration: const BoxDecoration(color: Color(0xFF023047)),
             child: Column(
@@ -62,6 +81,7 @@ class _MyDrawerState extends State<MyDrawer> {
           ),
 
           /// 🔹 EDUCATION TITLE
+          if(!isAdmin)
           const Padding(
             padding: EdgeInsets.all(12),
             child: Text(
@@ -74,7 +94,7 @@ class _MyDrawerState extends State<MyDrawer> {
           ),
 
           /// 🔹 EDUCATION LIST
-          ...educations.map((edu) {
+          ...educations.map((edu){
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: Container(
@@ -120,6 +140,7 @@ class _MyDrawerState extends State<MyDrawer> {
           }).toList(),
 
           /// 🔹 ADD BUTTON
+          if(!isAdmin)
           Padding(
             padding: const EdgeInsets.all(10),
             child: TextButton(

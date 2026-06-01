@@ -7,8 +7,8 @@ void main() async{
   runApp(const MyApp());
   WidgetsFlutterBinding.ensureInitialized();
   await Supabase.initialize(
-    url: "https://ksrbgxlisckruzgheybo.supabase.co", 
-    anonKey: "sb_publishable_2-NXSyrCZt079RSv0IQh_A_2TqIwe43",
+    url: "https://xffygkryxhflmbwhwnus.supabase.co", 
+    anonKey: "sb_publishable_ISDmmSSRyLWngzNRQ41fbg_diOv3Mec",
   );
 }
 
@@ -23,7 +23,6 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData.light(),
       home: AuthGate(),
-      // home: CountryPage(),
     );
   }
 }

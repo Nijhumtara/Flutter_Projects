@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:unibridge/input.dart';
-// import 'package:unibridge/auth_gate.dart';
+
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -122,7 +122,7 @@ class _LoginState extends State {
                         style: GoogleFonts.lobster(
                           textStyle: TextStyle(
                             color: const Color(0xFF1D3557),
-                            fontSize: 22,
+                            fontSize: 24,
                             fontWeight: FontWeight.bold,
                             shadows: [
                               Shadow(
@@ -147,7 +147,7 @@ class _LoginState extends State {
                         style: GoogleFonts.lobster(
                           textStyle: TextStyle(
                             color: const Color(0xFF1D3557),
-                            fontSize: 20,
+                            fontSize: 21,
                             fontWeight: FontWeight.bold,
                             shadows: [
                               Shadow(
@@ -175,7 +175,7 @@ class _LoginState extends State {
                   children: [
                     //Register and Login Form Section
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.80,
+                      width: 350,
                       child: Container(
                         decoration: BoxDecoration(
                           color: const Color(0xFF1D3557), // card color
@@ -434,7 +434,7 @@ class _LoginState extends State {
                       ),
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.80,
+                      width: 350,
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(8, 8, 0, 70),
                         child: Row(
