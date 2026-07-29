@@ -4,9 +4,7 @@ A study-abroad information platform built with Flutter and Supabase, providing s
 
 ## 🖼️ Screenshots
 
-| Country Selection | University Listing | University Detail View |
-|:---:|:---:|:---:|
-| ![Country selection screen](assets/screenshot-country.png) | ![University listing screen](assets/screenshot-listing.png) | ![University detail screen](assets/screenshot-detail.png) |
+(Study_Abroad_Application/unibridge/Asset/View_App/)
 
 ## ✨ Key Features
 
