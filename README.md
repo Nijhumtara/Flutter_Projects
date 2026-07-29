@@ -4,7 +4,7 @@ A study-abroad information platform built with Flutter and Supabase, providing s
 
 ## 🖼️ Screenshots
 
-(Study_Abroad_Application/unibridge/Asset/View_App/)
+All app screenshots are available here: [View Screenshots](https://github.com/Nijhumtara/Unibridge_Mobile_Application_Using_Flutter/tree/main/Study_Abroad_Application/unibridge/Asset/View_App)
 
 ## ✨ Key Features
 
