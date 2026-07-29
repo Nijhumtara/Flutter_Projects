@@ -1,27 +1,39 @@
-# Flutter_Projects
-## UniBridge – Study Abroad App
+# UniiBridge
 
-UniBridge is a Flutter-based mobile app that helps students explore study abroad opportunities.
+A study-abroad information platform built with Flutter and Supabase, providing structured data on top universities across the UK, USA, Canada, and Australia to help students research and compare options.
 
-The app includes a **Login & Register** flow followed by three sequential pages:
-1. **Country Selection** – Select a destination country
-2. **University Listing** – View universities available in the selected country
-3. **University Details** – Explore tuition fees, available courses, and more
+## 🖼️ Screenshots
 
-### Features
-- Login and Sign-Up on the same screen (state-based toggle)
-- Custom reusable input fields with icons
-- Password fields with show/hide toggle
-- Independent controllers for each input
-- Smooth scrolling with hidden scrollbar
-- Responsive layout for different screen sizes
-- Clean, modern design ready for production
+| Country Selection | University Listing | University Detail View |
+|:---:|:---:|:---:|
+| ![Country selection screen](assets/screenshot-country.png) | ![University listing screen](assets/screenshot-listing.png) | ![University detail screen](assets/screenshot-detail.png) |
 
-### Technologies Used
-- Flutter & Dart
-- Google Fonts
-- Font Awesome Icons
-- Material Design widgets
+## ✨ Key Features
+
+- **Structured university data** — top 5 universities across 4 countries (UK, USA, Canada, Australia), covering 20 universities total
+- **Supabase-backed database** — relational schema for querying and filtering university data
+- **Production recovery** — restored a paused Supabase project from scratch, including database restoration via `psql`/Session Pooler and manual storage recovery
+- **Automated uptime** — GitHub Actions cron workflow keeps the free-tier backend from auto-pausing
+
+## 🛠️ Tech Stack
+
+- **Frontend:** Flutter (Dart)
+- **Backend:** Supabase (PostgreSQL, Storage)
+- **DevOps:** GitHub Actions (scheduled keep-alive workflow)
+
+## 🚀 Getting Started
+
+```bash
+git clone https://github.com/[username]/uniibridge.git
+cd uniibridge
+flutter pub get
+flutter run
+```
+
+## 📄 License
+
+<!-- Add your license here, e.g. MIT -->
+
 
 ### Future Improvements
 - Firebase authentication
